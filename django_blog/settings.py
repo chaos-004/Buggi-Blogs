@@ -19,6 +19,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'this_is_my_main_secret_key')
 DEBUG = True
 
 ALLOWED_HOSTS = ['buggi-blogs-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://buggi-blogs-production.up.railway.app']
 
 
 # Application definition
