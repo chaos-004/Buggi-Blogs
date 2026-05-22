@@ -1,2 +1,1 @@
-
-web: python manage.py migrate && gunicorn django_blog.wsgi
+web: python manage.py migrate && python manage.py createsuperuser --noinput && gunicorn django_blog.wsgi
