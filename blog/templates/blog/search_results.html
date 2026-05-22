@@ -23,7 +23,7 @@
             <div class="post-card-content">
                 <span class="badge">{{ post.category.name|default:"Uncategorized" }}</span>
                 <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-                <p>{{ post.summary|default:post.content|truncatewords:20 }}</p>
+                <p>{{ post.summary|default:post.content|safe|truncatewords:20 }}</p>
                 <div class="meta">
                     <span>{{ post.author.get_full_name|default:post.author.username }}</span>
                     <span>{{ post.published_at|naturalday }}</span>
