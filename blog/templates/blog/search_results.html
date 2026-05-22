@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+{% load humanize %}
+
+{% block title %}Search: {{ query }} - Buggi{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <h1>Search Results</h1>
+        {% if query %}
+        <p>{{ posts.paginator.count }} result{{ posts.paginator.count|pluralize }} for "{{ query }}"</p>
+        {% endif %}
+    </div>
+    
+    <div class="posts-grid">
+        {% for post in posts %}
+        <article class="post-card">
+            {% if post.featured_image %}
+            <div class="post-card-image">
+                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+            </div>
+            {% endif %}
+            <div class="post-card-content">
+                <span class="badge">{{ post.category.name|default:"Uncategorized" }}</span>
+                <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                <p>{{ post.summary|default:post.content|truncatewords:20 }}</p>
+                <div class="meta">
+                    <span>{{ post.author.get_full_name|default:post.author.username }}</span>
+                    <span>{{ post.published_at|naturalday }}</span>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        {% if query %}
+        <p class="empty-message">No results found for "{{ query }}". Try a different search term.</p>
+        {% else %}
+        <p class="empty-message">Enter a search term to find posts.</p>
+        {% endif %}
+        {% endfor %}
+    </div>
+    
+    {% if page_obj.has_next or page_obj.has_previous %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}" class="btn btn-outline">Previous</a>
+        {% endif %}
+        <span class="page-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+        <a href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}" class="btn btn-outline">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
