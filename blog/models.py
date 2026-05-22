@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
+from ckeditor_uploader.fields import RichTextUploadingField 
 
 
 class Category(models.Model):
@@ -58,7 +59,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     summary = models.TextField(max_length=500, blank=True, help_text="Brief summary of the post")
-    content = models.TextField()
+    content = RichTextUploadingField()
     featured_image = models.ImageField(upload_to='posts/%Y/%m/', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')
     tags = models.ManyToManyField(Tag, blank=True, related_name='posts')
